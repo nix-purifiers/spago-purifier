@@ -98,11 +98,17 @@ with tempfile.TemporaryDirectory(prefix="spago-conformance-") as temporary:
         run(["nix", "build", str(REPO) + "#native", "--out-link", native_binary])
         empty = temp / "unlocked"
         empty.mkdir()
+        compiler = temp / "compiler"
+        run(["nix", "build", str(REPO) + "#compiler", "--out-link", compiler])
+        baseline_env = os.environ | {
+            "PATH": str(compiler / "bin") + os.pathsep + os.environ["PATH"]
+        }
         baseline = subprocess.run(
             [native_binary / "bin/spago", "build"],
             cwd=empty,
             capture_output=True,
             text=True,
+            env=baseline_env,
         )
         fallback = subprocess.run(
             [spago, "build"], cwd=empty, capture_output=True, text=True
@@ -111,7 +117,7 @@ with tempfile.TemporaryDirectory(prefix="spago-conformance-") as temporary:
         assert fallback.stdout == baseline.stdout
         warning, rest = fallback.stderr.split("\n", 1)
         assert "no lockfile" in warning and "impure" in warning
-        assert rest == baseline.stderr
+        assert rest == baseline.stderr, {"wrapper": rest, "baseline": baseline.stderr}
     if case == "release":
         release = (
             Path(run([*args, "release"], stdout=subprocess.PIPE).stdout.strip())
