@@ -1,0 +1,10 @@
+/result*
+/sdk-result
+*.log
+__pycache__/
+*.pyc
+.spago-purifier/
+.spago/
+output/
+/cli-result
+/environment-result
