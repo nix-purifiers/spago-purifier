@@ -173,7 +173,7 @@ def main():
                 file=sys.stderr,
             )
             os.execve(compiler, ["purs", *args], clean_env())
-        if "--help" in args or "--version" in args or not args:
+        if not args or args[0] in {"--help", "--version"}:
             os.execve(compiler, ["purs", *args], clean_env())
         env = activated(root, companion, native_lock)
         if args[:2] == ["ide", "server"]:
@@ -201,12 +201,7 @@ def main():
                 file=sys.stderr,
             )
             os.execve(native, ["spago", *args], clean_env())
-        if (
-            not args
-            or "--help" in args
-            or "--version" in args
-            or args[0] in {"-h", "-v"}
-        ):
+        if not args or args[0] in {"--help", "--version", "-h", "-v"}:
             os.execve(native, ["spago", *args], clean_env())
         command = args[0]
         if command not in {

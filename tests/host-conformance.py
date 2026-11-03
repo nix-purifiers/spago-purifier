@@ -72,6 +72,12 @@ with tempfile.TemporaryDirectory(prefix="spago-conformance-") as temporary:
     assert "locked Spago: 42" in output.stdout, output
     run([*args, "shell", "--", "spago", "test"])
     if case == "native":
+        flagged = run(
+            [*args, "shell", "--", "spago", "run", "--", "--version"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        assert "locked Spago: 42" in flagged.stdout
         source = root / "src/Main.purs"
         source.write_text(source.read_text().replace("20 + 22", "21 + 22"))
         result = run(
