@@ -1,0 +1,63 @@
+{
+  "entries": [
+    {
+      "hash": "sha256-eaugMKE5E4/lqyt5eCWXOCWJr9UxB+X1F7EMFSm1Wdw=",
+      "mirrors": [],
+      "path": "archives/console-6.1.1.tar.gz",
+      "url": "https://packages.registry.purescript.org/console/6.1.1.tar.gz"
+    },
+    {
+      "hash": "sha256-FfKM8RHkLDztVc9lVYXuZKmrspDWgN728pHPeYnIV3A=",
+      "mirrors": [],
+      "path": "archives/effect-4.0.1.tar.gz",
+      "url": "https://packages.registry.purescript.org/effect/4.0.1.tar.gz"
+    },
+    {
+      "hash": "sha256-tb47YmbR/2YKyzLqgE+s5Ilz9LBOwpUA3/zse7sJahU=",
+      "mirrors": [],
+      "path": "archives/prelude-6.0.3.tar.gz",
+      "url": "https://packages.registry.purescript.org/prelude/6.0.3.tar.gz"
+    },
+    {
+      "git": {
+        "commitObject": null,
+        "leaveDotGit": false,
+        "rev": "55e28952993d30a7317d97b4e7075087f9bc653f",
+        "submodules": false,
+        "url": "https://github.com/purescript/registry.git"
+      },
+      "hash": "sha256-Lsq5IBK373iWcjUwJnV4jwW1JPMImPyCzWcewLM++XA=",
+      "path": "repositories/registry/55e28952993d30a7317d97b4e7075087f9bc653f"
+    },
+    {
+      "git": {
+        "commitObject": null,
+        "leaveDotGit": false,
+        "rev": "26ffcda290b7711cb16789d4541077e1bd017fe3",
+        "submodules": false,
+        "url": "https://github.com/purescript/registry-index.git"
+      },
+      "hash": "sha256-12gJ/PW+nkZFqIXZf0JKeSA0sqy/lX5gL0rsLRjpdpM=",
+      "path": "repositories/registry-index/26ffcda290b7711cb16789d4541077e1bd017fe3"
+    }
+  ],
+  "manifests": {
+    "spago.yaml": {
+      "content": "package:\n  name: purifier-example\n  dependencies:\n    - console: \">=6.1.1 <7.0.0\"\n    - effect: \">=4.0.1 <5.0.0\"\n    - prelude: \">=6.0.3 <7.0.0\"\n  test:\n    main: Test.Main\n    dependencies: []\nworkspace:\n  extraPackages: {}\n",
+      "sha256": "d1acd1557d862097fa2f07e8277a8c08f806e17eb8f447cdc51dfcd4205e7b43"
+    }
+  },
+  "nativeLock": {
+    "sha256": "a22369cf19e4f4fc5503bf42c28a0c360bc20673f041f66057581d8ea9d186cd"
+  },
+  "purifier": "spago",
+  "registries": {
+    "registry": "repositories/registry/55e28952993d30a7317d97b4e7075087f9bc653f",
+    "registry-index": "repositories/registry-index/26ffcda290b7711cb16789d4541077e1bd017fe3"
+  },
+  "schemaVersion": 1,
+  "toolVersions": {
+    "purescript": "0.15.16",
+    "spago": "1.0.5"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "workspace": {
+    "packages": {
+      "purifier-example": {
+        "path": "./",
+        "core": {
+          "dependencies": [
+            {
+              "console": ">=6.1.1 <7.0.0"
+            },
+            {
+              "effect": ">=4.0.1 <5.0.0"
+            },
+            {
+              "prelude": ">=6.0.3 <7.0.0"
+            }
+          ]
+        },
+        "test": {
+          "dependencies": []
+        }
+      }
+    },
+    "extra_packages": {}
+  },
+  "packages": {
+    "console": {
+      "type": "registry",
+      "version": "6.1.1",
+      "integrity": "sha256-eaugMKE5E4/lqyt5eCWXOCWJr9UxB+X1F7EMFSm1Wdw=",
+      "dependencies": [
+        "effect",
+        "prelude"
+      ]
+    },
+    "effect": {
+      "type": "registry",
+      "version": "4.0.1",
+      "integrity": "sha256-FfKM8RHkLDztVc9lVYXuZKmrspDWgN728pHPeYnIV3A=",
+      "dependencies": [
+        "prelude"
+      ]
+    },
+    "prelude": {
+      "type": "registry",
+      "version": "6.0.3",
+      "integrity": "sha256-tb47YmbR/2YKyzLqgE+s5Ilz9LBOwpUA3/zse7sJahU=",
+      "dependencies": []
+    }
+  }
+}
