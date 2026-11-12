@@ -23,11 +23,11 @@
           compiler = scope.callPackage ./nix/compiler.nix { };
           nativeSpago = scope.callPackage ./nix/spago.nix { };
           toolchain = scope.callPackage ./nix/toolchain.nix { };
-          cli = scope.callPackage ./nix/cli.nix {
+          cli = scope.callPackage ./pkgs/spago-purifier/default.nix {
             nixpkgsSrc = nixpkgs;
             purifierSrc = purifier;
           };
-          buildSpagoProject = scope.callPackage ./nix/build-project.nix {
+          buildSpagoProject = scope.callPackage ./pkgs/build-spago-project/default.nix {
             purifier = import (purifier + "/nix/lib") { inherit (final) lib; };
           };
         });
@@ -47,7 +47,7 @@
         native = (pkgsFor system).spago-purifier.nativeSpago;
         compiler = (pkgsFor system).spago-purifier.compiler;
       });
-      lib.spago-purifier.readLock = import ./nix/read-lock.nix { lib = nixpkgs.lib; };
+      lib.spago-purifier = import ./lib-overlays/default { lib = nixpkgs.lib; };
       apps = forAll (system: {
         default = {
           type = "app";

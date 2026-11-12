@@ -38,7 +38,7 @@ runCommand "purified-spago-environment"
   }
   ''
     mkdir -p $out/sources $out/output $out/registry
-    python3 ${../spago_purifier/build.py} ${metadata} ${sources} "$out"
+    python3 ${../../spago_purifier/build.py} ${metadata} ${sources} "$out"
     ln -s ${sources}/${registries.registry} $out/registry/registry
     ln -s ${sources}/${registries.registry-index} $out/registry/registry-index
     ln -s ${sources} $out/capture
