@@ -93,7 +93,7 @@ def npm_consumer(item,index):
             '--registry','http://127.0.0.1:'+str(server.server_port)+'/',module['name']+'@'+module['version']],
             cwd=project,env=env,check=True,timeout=120)
         result=subprocess.run([spec['node'],'--input-type=module','-e',
-            'import { answer } from "@fixture/purescript-answer"; console.log(answer(0));'],
+            'import { answer, render } from "@fixture/purescript-answer"; if(answer(1)-answer(0)!==2 || render(1)!==String(answer(1))) process.exit(3); console.log(answer(0));'],
             cwd=project,capture_output=True,text=True,check=True)
         assert result.stdout.strip()==str(item['value'])
         installed=project/'node_modules/@fixture/purescript-answer'
@@ -113,8 +113,10 @@ for index,item in enumerate(spec['versions']):
         assert all(sha((root/p).read_bytes())==checksum for p,checksum in expected.items())
     assert model['modules']['Projection.Answer']['kind']=='project'
     assert not any(m.startswith('Test.') for m in model['modules'])
+    assert any(i['owner']=='registry' and i['file']=='foreign.js' for i in model['inputs'])
+    assert any(i['owner']=='project' and i['file']=='foreign.js' for i in model['inputs'])
     node=subprocess.run([spec['node'],'--input-type=module','-e',
-        'import { answer } from '+json.dumps((native/'main.mjs').as_uri())+'; console.log(answer(0));'],capture_output=True,text=True,check=True)
+        'import { answer, render } from '+json.dumps((native/'main.mjs').as_uri())+'; if (answer(1)-answer(0)!==2 || render(1)!==String(answer(1))) process.exit(3); console.log(answer(0));'],capture_output=True,text=True,check=True)
     assert node.stdout.strip()==str(item['value']),node
     npm_coordinate=npm_consumer(item,index)
     direct=browser(native,item['value']);projected=browser(files,item['value'])
