@@ -69,6 +69,55 @@ It returns `packages.environment`, `packages.project`, `packages.default`,
 `srcFilter` customize the build. The default runs native build and test commands.
 `release` contains a source tarball with both lockfiles.
 
+Select a production module for browser ESM, HTTP resources and Java resources:
+
+```nix
+pkgs.spago-purifier.buildSpagoProject {
+  src = ./.;
+  javascriptTargets.site = {
+    module = "MyProject.Browser";
+    assets = {
+      "index.html" = "web/index.html";
+      "style.css" = "web/style.css";
+    };
+    webjar = {
+      groupId = "org.webjars.purescript";
+      artifactId = "my-project";
+      version = "1.0.0";
+    };
+    npm = {
+      name = "@my-project/browser";
+      version = "1.0.0";
+    };
+  };
+}
+```
+
+`javascript.site` and `packages.javascript-site` contain `main.mjs` and the
+declared assets. Import the native module's exports from `main.mjs`. Native
+PureScript compilation uses the captured offline environment; esbuild bundles
+the selected module's runtime dependencies for the browser. Node-only imports
+and unresolved external imports fail the build.
+
+The entry module must come from a workspace package's `src` directory. Compiler
+CoreFn metadata binds bundle inputs to production sources and captured registry
+packages. Test modules cannot become entry points or bundled dependencies.
+`javascript.site.proof` retains source hashes, CoreFn metadata, bundler inputs
+and public file hashes separately from the served files.
+
+`projections.site.web` contains `files/` and `resources.jar`. Optional WebJar
+coordinates add `projections.site.maven` and `projections.site.ivy`, with an
+artifact identity qualified by the producer. Source edits produce distinct
+coordinates even when the declared version stays the same.
+
+Optional `npm` coordinates add `projections.site.npm`. Native `npm pack` packages
+the self-contained ESM library with an ordinary `package.json` export. The npm
+projection records the actual archive and qualifies its version by producer
+identity. This library package contains `main.mjs`; declared HTTP assets stay
+in the browser resource outputs. It has no external npm runtime dependencies.
+`javascript.site.npmArchive` retains the native tarball, `npm pack` report and
+captured package graph.
+
 ```sh
 spago-purifier publish \
   --repo OWNER/REPO \

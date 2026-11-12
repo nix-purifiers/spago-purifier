@@ -3,7 +3,7 @@
   description = "Locked, Nix-resolved dependencies for Spago";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   inputs.purifier = {
-    url = "github:nix-purifiers/purifier";
+    url = "github:nix-purifiers/purifier/v0.1.63";
     flake = false;
   };
   outputs =
@@ -65,6 +65,7 @@
           project = project.packages.default;
           release = project.release;
           cli = self.packages.${system}.default;
+          browser = import ./tests/browser.nix { pkgs = pkgsFor system; };
         }
       );
       formatter = forAll (system: (pkgsFor system).nixfmt-tree);

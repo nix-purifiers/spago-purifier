@@ -1,0 +1,1 @@
+<!doctype html><html><head><link rel="stylesheet" href="style.css"></head><body><p id="answer">pending</p><script type="module">import { answer } from './main.mjs'; const p = document.getElementById('answer'); p.textContent = JSON.stringify({answer: answer(0)}); p.dataset.color = getComputedStyle(p).color;</script></body></html>
