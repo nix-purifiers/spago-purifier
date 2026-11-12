@@ -16,12 +16,12 @@ let
     lockFile = /. + companion;
     nativeLock = /. + nativeLock;
   };
-  lock = import ./read-lock.nix { inherit (pkgs) lib; } args;
+  lock = import ../lib-overlays/default/read-lock.nix { inherit (pkgs) lib; } args;
 in
 if target == "environment" then
-  pkgs.callPackage ./environment.nix { inherit purifier compiler; } { inherit lock; }
+  pkgs.callPackage ../pkgs/build-spago-project/environment.nix { inherit purifier compiler; } { inherit lock; }
 else if target == "release" then
-  (pkgs.callPackage ./build-project.nix {
+  (pkgs.callPackage ../pkgs/build-spago-project/default.nix {
     inherit
       purifier
       compiler

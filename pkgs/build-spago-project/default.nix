@@ -39,7 +39,7 @@
 }:
 let
   lock = purifier.checkLock (
-    import ./read-lock.nix { inherit lib; } { inherit src lockFile nativeLock; }
+    import ../../lib-overlays/default/read-lock.nix { inherit lib; } { inherit src lockFile nativeLock; }
   );
   environment = import ./environment.nix {
     inherit
@@ -110,12 +110,12 @@ let
           chmod -R u+w work
           cp ${nativeLock} work/spago.lock
           cd work
-          export PYTHONPATH=${../.}
+          export PYTHONPATH=${../..}
           export SPAGO_PURIFIER_ENVIRONMENT=${environment}
           export SPAGO_PURIFIER_NATIVE=${nativeSpago}/bin/spago
           export SPAGO_PURIFIER_SHELL=${runtimeShell}
           export SPAGO_PURIFIER_SESSION="$TMPDIR/session"
-          python3 ${../spago_purifier/sandbox.py} ${lib.escapeShellArg buildCommand} ${
+          python3 ${../../spago_purifier/sandbox.py} ${lib.escapeShellArg buildCommand} ${
             lib.escapeShellArg (if doCheck then checkCommand else "")
           }
           mkdir -p "$out"

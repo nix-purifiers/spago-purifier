@@ -15,12 +15,12 @@
 stdenvNoCC.mkDerivation {
   pname = "spago-purifier";
   version = "0.1.0";
-  src = ../.;
+  src = ../..;
   nativeBuildInputs = [ makeWrapper ];
   dontBuild = true;
   installPhase = ''
     mkdir -p "$out/bin" "$out/lib/spago-purifier"
-    cp -r spago_purifier nix "$out/lib/spago-purifier/"
+    cp -r spago_purifier nix lib-overlays pkgs "$out/lib/spago-purifier/"
     install -m755 bin/spago-purifier "$out/bin/spago-purifier"
     substituteInPlace "$out/lib/spago-purifier/nix/realize.nix" \
       --replace-fail '@nixpkgs@' '${nixpkgsSrc}' \
